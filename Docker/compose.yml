@@ -1,0 +1,20 @@
+services:
+  fastai:
+    image: fastai-jupyter-lab
+    container_name: fastai-jupyter-lab
+
+    ports:
+      - "8888:8888"
+
+    volumes:
+      - ../notebooks:/workspace/notebooks  # Notebooks
+      - ../data:/workspace/data    # Used for datasets
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+    stdin_open: true
+    tty: true
