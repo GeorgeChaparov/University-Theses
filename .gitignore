@@ -1,6 +1,9 @@
 # jupyter lab checkpoint folder
 *.ipynb_checkpoints
 
+data/
+notebooks/.Trash-0/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

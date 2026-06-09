@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Python packages
-RUN pip install --no-cache-dir fastai jupyter matplotlib pandas scikit-learn
+RUN pip install --no-cache-dir fastai jupyter matplotlib pandas scikit-learn polars
 
 # Expose Jupyter
 EXPOSE 8888
