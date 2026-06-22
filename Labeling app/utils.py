@@ -23,6 +23,12 @@ def load_settings():
 
 
 def load_data():
+        """
+            Lets the user select a folder. 
+            Goes trough each sub folder in the selected folder and finds the gaze data as well as 
+            it searches for labels that may have been created before that, and loads them. 
+            It does the same for the workspace video feed.
+        """
         events: list[Event]= []
 
         dir = QFileDialog.getExistingDirectory(None, "Choose folder")
@@ -86,7 +92,7 @@ def save_settings(settings):
 
 def validate_list_index(index, list):
     if index < 0 :
-        print("the given index was smaller then 0")
+        print("The given index was smaller then 0")
         index = 0
 
     list_len = len(list)
@@ -95,7 +101,7 @@ def validate_list_index(index, list):
         raise IndexError("The list is empty")
 
     if index >= list_len:
-        print("the given index was bigger then the length of the list")
+        print("The given index was bigger then the length of the list")
         index = list_len - 1
 
     return index
