@@ -23,6 +23,7 @@ class VideoPlayer(QMediaPlayer):
             self.setPosition(value)
         except ValueError:
             print("Invalid timestamp")
+            
 
     def seek(self, time: int):
         self.setPosition(self.position() + time)

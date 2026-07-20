@@ -1,5 +1,5 @@
 services:
-  fastai:
+  fastai_and_jupyter:
     image: fastai-jupyter-lab
     container_name: fastai-jupyter-lab
 

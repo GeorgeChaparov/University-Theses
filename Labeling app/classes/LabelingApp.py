@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QGraphicsView, QGraphicsScene, QLabel, QComboBox, QPushButton
+from PyQt6.QtWidgets import QWidget, QGraphicsView, QGraphicsScene, QLabel, QComboBox, QPushButton, QMessageBox
 from PyQt6.QtMultimediaWidgets import QGraphicsVideoItem
 from PyQt6.QtGui import QShortcut, QKeySequence
 from PyQt6.QtCore import QUrl, Qt
@@ -36,17 +36,44 @@ class LabelingApp(QWidget):
         # ---------------- LABELS ----------------
         self.event_buttons:dict[str, QPushButton] = {}
 
+                # ---------------- OFFSETS ----------------
+        self.offset_x = 0
+        self.offset_y = 0
+        self.video_render_delay_ms = 0
+
+
+        # ---------------- DATA LOADING ----------------
+        data_loaded = False
+
+        while not data_loaded:
+            try:
+                events = utils.load_data()
+                self.offset_x, self.offset_y, self.video_render_delay_ms = utils.load_settings()
+                data_loaded = True
+            except FileNotFoundError as e:
+                QMessageBox.critical(self, "File Not Found", str(e))
+            except RuntimeError:
+                raise RuntimeError
         # ---------------- TIMELINE ----------------
         self.timeline = TimelineWidget()
         self.timeline.seek_requested.connect(self.player.setPosition)
+        self.timeline.set_events(events)
+
+        # ---------------- UI ----------------
+        self.time_label: QLabel = None
+        self.offset_label_X: QLabel = None
+        self.offset_label_Y: QLabel = None
+        self.render_delay_label: QLabel = None
+        self.combo_box: QComboBox = None
+
+        self.ui = MainWindowUI()
+        self.ui.setup_ui(self)
 
         # ---------------- EVENTS ----------------
-        events = utils.load_data()
         self.event_handler = EventHandler(events)
         self.event_handler.current_event_changed.connect(self.on_current_event_changed)
         self.event_handler.events_change_requested.connect(self.on_events_change_requested)
 
-        self.timeline.set_events(events)
         self.player.setSource(QUrl.fromLocalFile(globVidDetails.path))
         
         events_len = len(events)
@@ -60,23 +87,6 @@ class LabelingApp(QWidget):
         self.player.positionChanged.connect(self.update_overlay)
         self.player.durationChanged.connect(self.on_timeline_duration_changed)
         self.video_item.nativeSizeChanged.connect(self.fit_video)
-
-        # ---------------- OFFSETS ----------------
-        self.offset_x = 0
-        self.offset_y = 0
-        self.video_render_delay_ms = 0
-
-        self.offset_x, self.offset_y, self.video_render_delay_ms = utils.load_settings()
-
-        # ---------------- UI ----------------
-        self.time_label: QLabel = None
-        self.offset_label_X: QLabel = None
-        self.offset_label_Y: QLabel = None
-        self.render_delay_label: QLabel = None
-        self.combo_box: QComboBox = None
-
-        self.ui = MainWindowUI()
-        self.ui.setup_ui(self)
 
         # ---------------- SHORTCUTS ----------------
         self.init_shortcuts()
@@ -232,7 +242,11 @@ class LabelingApp(QWidget):
         t = self.player.position()
 
         # Update events
-        self.event_handler.add_event(label, t, self.video_render_delay_ms)
+        try:
+            self.event_handler.add_event(label, t, self.video_render_delay_ms)
+        except ValueError as e:
+            QMessageBox.warning(self, "End time not valid", str(e))
+            return
 
         # UI feedback
         for _, btn in self.event_buttons.items():
@@ -259,14 +273,23 @@ class LabelingApp(QWidget):
     def split_event(self):
         time = self.player.position()
 
-        self.event_handler.split_event(time)
+        try:
+            self.event_handler.split_event(time)
+        except ValueError as e:
+            QMessageBox.warning(self, "Split time not valid", str(e))
 
     def change_event_start_time(self):
         time = self.player.position()
 
-        self.event_handler.change_start_time(time)
+        try:
+            self.event_handler.change_start_time(time)
+        except ValueError as e:
+            QMessageBox.warning(self, "Start time not valid", str(e))
 
     def change_event_end_time(self):
         time = self.player.position()
 
-        self.event_handler.change_end_time(time)
+        try:
+            self.event_handler.change_end_time(time)
+        except ValueError as e:
+            QMessageBox.warning(self, "End time not valid", str(e))

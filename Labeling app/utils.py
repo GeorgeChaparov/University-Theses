@@ -3,7 +3,6 @@ import pandas as pd
 import json
 
 from PyQt6.QtWidgets import QFileDialog
-
 import globals
 from modules import Event
 
@@ -33,13 +32,20 @@ def load_data():
 
         dir = QFileDialog.getExistingDirectory(None, "Choose folder")
 
+        if dir == "":
+            raise RuntimeError
+
+        found_video = False
+        found_gaze = False
+
         for entry in os.scandir(dir):
             if not entry.is_dir():
                 continue
             
 
             if entry.name.find("_Data") != -1:
-               
+                found_video = True
+
                 path = dir + "/" + entry.name + "/"
                 globals.vidDetails.root = path
 
@@ -74,7 +80,16 @@ def load_data():
                         events.append(event)
 
             elif entry.name.find("_Raw") != -1:
+                found_gaze = True
                 globals.vidDetails.path = dir + "/" + entry.name + "/Neon Scene Camera v1 ps1.mp4"
+            else:
+                print(f"No relevant information found in {entry.path}")
+
+        if not found_gaze: 
+            raise FileNotFoundError("Gaze data have not been found.")
+        
+        if not found_video: 
+            raise FileNotFoundError("Video data have not been found.")
 
         return events
 

@@ -67,6 +67,9 @@ class EventHandler(QObject):
 
         end = end_time
 
+        if start == end_time:
+            raise ValueError("The start time cannot be the same as the end time.")
+
         # Save event
         event = Event(start, end, label)
         self.events.append(event)
@@ -93,8 +96,7 @@ class EventHandler(QObject):
         """
 
         if  self.current_event.start_time > time or self.current_event.end_time < time:
-            print("The time have to be between the start and the end time of the current event.")
-            return
+            raise ValueError("The time have to be between the start and the end time of the current event.")
         
         new_event = Event(self.current_event.start_time, time, self.current_event.label)
 
@@ -106,8 +108,7 @@ class EventHandler(QObject):
 
     def change_start_time(self, time: int):
         if self.current_event.end_time < time:
-            print("The time have to be smaller then the end time of the current event.")
-            return
+            raise ValueError("The time have to be smaller then the end time of the current event.")
 
         # Change the start time of the current event
         self.events[self.current_event.index].start_time = time
@@ -136,8 +137,7 @@ class EventHandler(QObject):
 
     def change_end_time(self, time: int):
         if self.current_event.start_time > time:
-            print("The time have to be smaller then the start time of the current event.")
-            return
+            raise ValueError("The time have to be smaller then the start time of the current event.")
 
         # Change the end time of the current event
         self.events[self.current_event.index].end_time = time

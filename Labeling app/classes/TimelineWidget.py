@@ -42,9 +42,8 @@ class TimelineWidget(QWidget):
         ratio = e.position().x() / self.width()
         self.seek_requested.emit(int(ratio * self.duration))
 
-    def paintEvent(self):
+    def paintEvent(self, _):
         """Paints each event over the timeline based on there position and duration."""
-
         painter = QPainter(self)
         w, h = self.width(), self.height()
 
