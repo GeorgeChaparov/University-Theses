@@ -4,11 +4,13 @@ from PyQt6.QtGui import QBrush, QColor, QPen
 
 class VideoPlayer(QMediaPlayer):
 
-    # ---------------- GAZE DOT ----------------
-    dot = QGraphicsEllipseItem(0, 0, 10, 10)
-    dot.setBrush(QBrush(QColor(255, 0, 0)))
-    dot.setPen(QPen(QColor(255, 0, 0)))
-    dot.setZValue(1)
+    def __init__(self):
+        super().__init__()
+
+        self.dot = QGraphicsEllipseItem(0, 0, 10, 10)
+        self.dot.setBrush(QBrush(QColor(255, 0, 0)))
+        self.dot.setPen(QPen(QColor(255, 0, 0)))
+        self.dot.setZValue(1)
 
     def toggle_play(self):
         if self.playbackState() == QMediaPlayer.PlaybackState.PlayingState:
@@ -27,7 +29,3 @@ class VideoPlayer(QMediaPlayer):
 
     def seek(self, time: int):
         self.setPosition(self.position() + time)
-
-    def setVideoSource(self, source):
-        self.setSource(self.source)
-        print(f"Loading Video: {source}")

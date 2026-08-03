@@ -3,7 +3,7 @@ from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtGui import QColor, QPainter
 
 import const
-from modules import Event
+from models import Event
 
 class TimelineWidget(QWidget):
 

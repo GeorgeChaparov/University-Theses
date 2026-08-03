@@ -1,5 +1,6 @@
-from modules import Event, CurrentEvent
+from models import Event, CurrentEvent
 import utils
+from DataHandler import save_df_to_csv
 
 import pandas as pd
 from PyQt6.QtCore import pyqtSignal, QObject
@@ -230,4 +231,5 @@ class EventHandler(QObject):
             for event in self.events
         ])
 
-        utils.save_df_to_csv(df, True)
+        save_df_to_csv(df, True)
+        

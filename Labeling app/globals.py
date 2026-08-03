@@ -2,6 +2,7 @@ import pandas as pd
 
 class VideoDetails:
     """
+    Stores shared recording data.
     Attributes:
         root: the root directory.
         recording_id: The id of the recording.
@@ -17,5 +18,6 @@ class VideoDetails:
     path = ""
     output_path = "labels.csv"
     gaze_timestamp = 0
+
 
 vidDetails = VideoDetails()

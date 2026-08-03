@@ -1,4 +1,4 @@
-from modules import Event, CurrentEvent
+from models import Event, CurrentEvent
 import utils
 import copy
 

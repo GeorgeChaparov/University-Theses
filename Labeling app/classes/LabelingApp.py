@@ -10,7 +10,7 @@ from classes.EventHandler import EventHandler
 from classes.VideoPlayer import VideoPlayer
 from classes.TimeMachine import TimeMachine
 from globals import vidDetails as globVidDetails 
-import utils
+import DataHandler
 import const
 
 
@@ -36,7 +36,7 @@ class LabelingApp(QWidget):
         # ---------------- LABELS ----------------
         self.event_buttons:dict[str, QPushButton] = {}
 
-                # ---------------- OFFSETS ----------------
+        # ---------------- OFFSETS ----------------
         self.offset_x = 0
         self.offset_y = 0
         self.video_render_delay_ms = 0
@@ -47,8 +47,8 @@ class LabelingApp(QWidget):
 
         while not data_loaded:
             try:
-                events = utils.load_data()
-                self.offset_x, self.offset_y, self.video_render_delay_ms = utils.load_settings()
+                events = DataHandler.load_data()
+                self.offset_x, self.offset_y, self.video_render_delay_ms = DataHandler.load_settings()
                 data_loaded = True
             except FileNotFoundError as e:
                 QMessageBox.critical(self, "File Not Found", str(e))
@@ -183,7 +183,7 @@ class LabelingApp(QWidget):
             "offset_y": self.offset_y,
             "overlay_delay": self.video_render_delay_ms
         }
-        utils.save_settings(settings)
+        DataHandler.save_settings(settings)
 
     # Overlay
     def update_overlay(self, t: int):
