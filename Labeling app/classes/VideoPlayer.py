@@ -1,5 +1,5 @@
 from PyQt6.QtMultimedia import QMediaPlayer
-from PyQt6.QtWidgets import QGraphicsEllipseItem
+from PyQt6.QtWidgets import QGraphicsEllipseItem, QMessageBox
 from PyQt6.QtGui import QBrush, QColor, QPen
 
 class VideoPlayer(QMediaPlayer):
@@ -23,7 +23,8 @@ class VideoPlayer(QMediaPlayer):
         try:
             value = int(time)
             self.setPosition(value)
-        except ValueError:
+        except ValueError as e:
+            QMessageBox.warning(self, "The input must be an integer", str(e))
             print("Invalid timestamp")
             
 
