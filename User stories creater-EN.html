@@ -10,6 +10,8 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
+    height: fit-content;
 }
 
 .story-card {
@@ -31,6 +33,7 @@ body {
     box-sizing: border-box;
 
     margin-left: 20px;
+    margin-top: 20px;
 }
 
 .content {
@@ -81,10 +84,19 @@ body {
 }
     </style>
     <script>
-        const requirements = [["Като потребител, искам да зареждам записа от на експеримента, за да мога да класифицирам данните.", "MUST"],
-        ["Като потребител, искам да зареждам записа от на експеримента, за да мога да класифицирам данните.", "Should"],
-        ["Като потребител, искам да зареждам записа от на експеримента, за да мога да класифицирам данните.", "could"],
-        ["Като потребител, искам да зареждам записа от на експеримента, за да мога да класифицирам данните.", "wont"],
+        const requirements = [
+            ["As a user, I want to be able see where the participant in the experiment is looking at so I can judge when an event begins and ends.", "MUST"],
+            ["As a user, I want to be able to make adjustments, horizontally and vertically, to the participant's gaze to correct any possible sensor interference.", "MUST"],
+            ["As a user, I want to be able to load the data from a given experiment so I can classify it.", "MUST"],
+            ["As a user, I want to be able to create, delete, and edit so I can categorize the data.", "MUST"],
+            ["As a user, I want to be able to change what an existing event is classified as to correct any mistakes.", "MUST"],
+            ["As a user, I want to be able to jump to any point in the recording to make my work easier.", "should"],
+            ["As a user, I want to be able to split an already created event so I can edit mistakes made by the artificial intelligence.", "should"],
+            ["As a user, I want to see what type the last event created was to reduce the chance of making a mistake.", "should"],
+            ["As a user, I want to be able to go back and forth on the changes I've made because it will make my job easier.", "could"],
+            ["As a user, I want to have keyboard shortcuts for as many functions as possible to speed up the work process.", "could"],
+            ["As a user, I want to see every event created so far so I can track my progress.", "could"],
+            ["As a user, I want to be able to edit the length of the clip so I can cut out unnecessary parts at the beginning and end.", "wont"],
     ];
 
     const body = document.getElementsByTagName("body")[0];

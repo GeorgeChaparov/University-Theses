@@ -1,0 +1,155 @@
+<html>
+    <body>
+    </body>
+    <style>
+
+body {
+    background: white;
+    font-family: "Segoe UI", sans-serif;
+    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    height: fit-content;
+}
+
+.story-card {
+    width: 280px;
+    height: 360px;
+
+    background: white;
+
+    border: 4px solid #222;
+    border-radius: 24px;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 32px;
+    box-sizing: border-box;
+
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.content {
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+.priority {
+    position: absolute;
+
+    top: 16px;
+    right: 16px;
+
+    font-weight: 800;
+    font-size: 1rem;
+
+    padding: 8px 12px;
+
+    border-radius: 999px;
+
+    letter-spacing: 1px;
+
+    background-color: black;
+}
+
+/* MoSCoW priorities */
+
+.priority-must {
+    background: #d32f2f;
+    color: white;
+}
+
+.priority-should {
+    background: #f57c00;
+    color: white;
+}
+
+.priority-could {
+    background: #1976d2;
+    color: white;
+}
+
+.priority-wont {
+    background: #616161;
+    color: white;
+}
+    </style>
+    <script>
+        const requirements = [
+            ["Като потребител, искам да мога да правя корекции, по хоризонтала и вертикала, на погледа на участника, за да коригирам евентуални смущения от сензорите.", "MUST"],
+            ["Като потребител, искам да виждам къде на работното поле гледа участника в експеримента, за да мога да преценя кога започва и свършва дадено събитие.", "MUST"],
+            ["Като потребител, искам да мога да зареждам данните от даден експеримент, за да мога да ги класифицирам.", "MUST"],
+            ["Като потребител, искам да мога да създавам, изтривам и редактирам нови събития, за да мога да категоризирам данните.", "MUST"],
+            ["Като потребител, искам да мога да прескачам до всяка точка в записа, за да се улесни работата ми.", "MUST"],
+            ["Като потребител, искам да мога да променям, като какво е класифицирано, вече съществуващо събитие, за да поправям допуснати грешки по-лесно.", "should"],
+            ["Като потребител, искам да мога да разделям вече създадено събитие, за да мога да редактирам грешки, направени от изкуственият интелект.", "should"],
+            ["Като потребител, искам да виждам от кой тип е последното създадено събитие, за да се намали шанса да допусна грешка.", "should"],
+            ["Като потребител, искам да мога да се връщам назад и напред по промените, които съм направил, защото това ще улесни работата ми.", "could"],
+            ["Като потребител, искам да имам клавишни комбинации за колкото се може повече от функциите, за да се забърза процеса на работа.", "could"],
+            ["Като потребител, искам да виждам всяко едно създадено събитие до момента, за да мога да следя прогреса си.", "could"],
+            ["Като потребител, искам да мога да редактирам дължината на клипът, за да мога да изрязвам ненужните части в началото и края.", "wont"],
+    ];
+
+    const body = document.getElementsByTagName("body")[0];
+
+    requirements.forEach(requirement => {
+        let cardClassName = ""
+        const requirementPriority = requirement[1].toUpperCase();
+        if (requirementPriority === "MUST") {
+            cardClassName = "story-card priority-must";
+        }
+        else if (requirementPriority === "SHOULD") {
+            cardClassName = "story-card priority-should";
+        }
+        else if (requirementPriority === "COULD") {
+            cardClassName = "story-card priority-could";
+        }
+        else if (requirementPriority === "WONT") {
+            cardClassName = "story-card priority-wont";
+        }
+
+        const card = document.createElement("div");
+        card.className = cardClassName;
+
+        const priority = document.createElement("div");
+        priority.className = "priority"
+        priority.innerText = requirementPriority;
+
+        const content = document.createElement("div");
+        content.className = "content"
+
+        const paragraph = document.createElement("p");
+        paragraph.innerText = requirement[0]
+
+        content.appendChild(paragraph);
+
+        card.appendChild(priority);
+        card.appendChild(content);
+
+        body.appendChild(card);
+
+        /*
+        <div class="story-card priority-should">
+            <div class="priority">SHOULD</div>
+
+            <div class="content">
+                <p>
+                    Като потребител, искам да зареждам записа от на експеримента, за да мога да класифицирам данните.
+                </p>
+            </div>
+            
+        </div>
+        */
+    });
+
+    </script>
+</html>
